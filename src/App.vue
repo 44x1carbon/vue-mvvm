@@ -3,14 +3,17 @@
     <div>
       <div>
         <label for="">商品名</label>
-        <input type="text" v-model="itemName">
+        <input type="text" v-model="inputItemName">
       </div>
       <div>
         <label for="">金額(税抜き)</label>
-        <input type="number" v-model.number="itemPrice">円
+        <input type="number" v-model.number="inputeItemPrice">円
       </div>
       <button @click="addItem">商品を追加</button>    
     </div>
+
+    <h2>注文内容</h2>
+    <span>3000円以上お買い上げで送料が無料!!</span>
     <table>
       <tr>
         <th>商品名</th><th>金額(税抜き)</th><th>金額(税込み)</th>
@@ -41,29 +44,32 @@ export default {
   name: 'app',
   data() {
     return {
-      itemName: "",
-      itemPrice: 0,
-      items: [],
-      
+      inputItemName: "",
+      inputeItemPrice: 0,
+      items: [],      
     }
   },
   methods: {
+    // 商品の追加
     addItem() {
       this.items.push({
-        itemName: this.itemName,
-        itemPrice: this.itemPrice
+        itemName: this.inputItemName,
+        itemPrice: this.inputeItemPrice
       })
     }
   },
   computed: {
+    // 商品合計金額
     itemTotalPlace() {
       return this.items.reduce((p, c) => {         
         return p + c.itemPrice;
       }, 0);
     },
+    // 合計
     totalPlace() {
       return this.itemTotalPlace + this.carriage;
     },
+    // 送料(商品合計金額が3000円以上なら0円)
     carriage() {
       return this.itemTotalPlace >= 3000 ? 0 : DEFAULR_CARRIAGE;
     }
