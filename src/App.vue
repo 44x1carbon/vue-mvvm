@@ -52,7 +52,16 @@ export default {
   methods: {
     // 商品の追加
     addItem() {
+      if(!this.canAdd) {
+        alert("商品名、価格を正しく入力してください");
+        return
+      }
       this.order.addItem(new Item(this.inputItemName, this.inputeItemPrice));      
+    }
+  },
+  computed: {
+    canAdd() {
+      return this.inputItemName != "" && this.inputeItemPrice != 0;
     }
   }
 }
