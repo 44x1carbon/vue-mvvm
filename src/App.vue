@@ -18,27 +18,27 @@
       <tr>
         <th>商品名</th><th>金額(税抜き)</th><th>金額(税込み)</th>
       </tr>
-      <tr v-for="item in items" :key="item.itemName">
-        <td>{{ item.itemName }}</td>
-        <td>{{ item.itemPrice }}円</td>
-        <td>{{ item.itemPrice * 1.08 }}円</td>
+      <tr v-for="item in order.items" :key="item.itemName">
+        <td>{{ item.name }}</td>
+        <td>{{ item.price }}円</td>
+        <td>{{ item.taxIncludedPrice }}円</td>
       </tr>      
       <tr>
         <td>送料</td>
-        <td>{{ carriage }}</td>
+        <td>{{ order.carriage }}</td>
       </tr>
       <tr>
         <td>合計金額</td>
-        <td>{{totalPlace}}円</td>
-        <td>{{totalPlace * 1.08}}円</td>
+        <td>{{ order.totalPrice }}円</td>
+        <td>{{ order.taxIncludedTotalPrice }}円</td>
       </tr>
     </table>
   </div>
 </template>
 
 <script>
-
-const DEFAULR_CARRIAGE = 300;
+import Order from './Order.js';
+import Item from './Item.js';
 
 export default {
   name: 'app',
@@ -46,32 +46,13 @@ export default {
     return {
       inputItemName: "",
       inputeItemPrice: 0,
-      items: [],      
+      order: new Order()
     }
   },
   methods: {
     // 商品の追加
     addItem() {
-      this.items.push({
-        itemName: this.inputItemName,
-        itemPrice: this.inputeItemPrice
-      })
-    }
-  },
-  computed: {
-    // 商品合計金額
-    itemTotalPlace() {
-      return this.items.reduce((p, c) => {         
-        return p + c.itemPrice;
-      }, 0);
-    },
-    // 合計
-    totalPlace() {
-      return this.itemTotalPlace + this.carriage;
-    },
-    // 送料(商品合計金額が3000円以上なら0円)
-    carriage() {
-      return this.itemTotalPlace >= 3000 ? 0 : DEFAULR_CARRIAGE;
+      this.order.addItem(new Item(this.inputItemName, this.inputeItemPrice));      
     }
   }
 }
