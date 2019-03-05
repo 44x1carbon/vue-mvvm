@@ -52,6 +52,10 @@ export default {
   methods: {
     // 商品の追加
     addItem() {
+      if(!this.canAdd) {
+        alert("商品名、価格を正しく入力してください");
+        return;
+      }
       this.items.push({
         itemName: this.inputItemName,
         itemPrice: this.inputeItemPrice
@@ -72,6 +76,9 @@ export default {
     // 送料(商品合計金額が3000円以上なら0円)
     carriage() {
       return this.itemTotalPlace >= 3000 ? 0 : DEFAULR_CARRIAGE;
+    },
+    canAdd() {
+      return this.inputItemName != "" && this.inputeItemPrice != 0;
     }
   }
 }
