@@ -18,26 +18,26 @@
       <tr>
         <th>商品名</th><th>金額(税抜き)</th><th>金額(税込み)</th>
       </tr>
-      <tr v-for="item in order.items" :key="item.itemName">
+      <tr v-for="item in cart.items" :key="item.itemName">
         <td>{{ item.name }}</td>
         <td>{{ item.price }}円</td>
         <td>{{ item.taxIncludedPrice }}円</td>
       </tr>      
       <tr>
         <td>送料</td>
-        <td>{{ order.carriage }}</td>
+        <td>{{ cart.carriage }}</td>
       </tr>
       <tr>
         <td>合計金額</td>
-        <td>{{ order.totalPrice }}円</td>
-        <td>{{ order.taxIncludedTotalPrice }}円</td>
+        <td>{{ cart.totalPrice }}円</td>
+        <td>{{ cart.taxIncludedTotalPrice }}円</td>
       </tr>
     </table>
   </div>
 </template>
 
 <script>
-import Order from './Order.js';
+import Cart from './Cart.js';
 import Item from './Item.js';
 
 export default {
@@ -46,7 +46,7 @@ export default {
     return {
       inputItemName: "",
       inputeItemPrice: 0,
-      order: new Order()
+      cart: new Cart()
     }
   },
   methods: {
@@ -56,7 +56,7 @@ export default {
         alert("商品名、価格を正しく入力してください");
         return
       }
-      this.order.addItem(new Item(this.inputItemName, this.inputeItemPrice));      
+      this.cart.addItem(new Item(this.inputItemName, this.inputeItemPrice));      
     }
   },
   computed: {
